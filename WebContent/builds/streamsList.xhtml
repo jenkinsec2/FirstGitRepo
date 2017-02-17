@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+<ui:composition template="/layout/template.xhtml">
+	<ui:define name="body">
+	<h4>
+		<h:outputText>hello</h:outputText>
+	</h4>
+	<h:form id="streamRequest">
+	
+			<h:panelGrid></h:panelGrid>
+				<rich:dataTable id="streamListData" value="#{streamListBean.portfolioStreamlists}" var="currentRow" iterationStatusVar="it" rows="20">
+					<f:facet name="noData"> 
+                		<h:outputText value="No data found" />
+               		</f:facet>
+                    <rich:column filterValue="#{streamListBean.portfolioName}"
+                    				filterExpression="#{fn:containsIgnoreCase(currentRow.portfolioName, streamListBean.portfolioName)}"
+                    				filterType="custom">
+                        <f:facet name="header">
+                            <h:panelGroup>
+		                        <h:outputText value="Portfolio Name "/>
+		                        <h:inputText value="#{streamListBean.portfolioName}">
+		                            <a4j:ajax event="blur" render="streamListData" execute="@this"/>
+		                        </h:inputText>
+                        	</h:panelGroup>
+                        </f:facet>
+                        <h:outputText value="#{currentRow.portfolioName}"/>
+                    </rich:column>
+                    <rich:column filterValue="#{streamListBean.strName}"
+                    				filterExpression="#{fn:containsIgnoreCase(currentRow.streamName, streamListBean.strName)}"
+                    				filterType="custom">
+                        <f:facet name="header">
+                            <h:outputText value="Stream Name" />
+                            <h:inputText value="#{streamListBean.strName}">
+		                            <a4j:ajax event="blur" render="streamListData" execute="@this"/>
+		                        </h:inputText>
+                        </f:facet>
+                        <h:outputText value="#{currentRow.streamName}" />
+                    </rich:column>
+                    <rich:column filterValue="#{streamListBean.pfoRelName}"
+                    				filterExpression="#{fn:containsIgnoreCase(currentRow.monthlyRelease, streamListBean.pfoRelName)}"
+                    				filterType="custom">
+                        <f:facet name="header">
+                            <h:panelGroup>
+		                        <h:outputText value="Monthly Release "/>
+		                        <h:inputText value="#{streamListBean.pfoRelName}">
+		                            <a4j:ajax event="blur" render="streamListData" execute="@this"/>
+		                        </h:inputText>
+                   			 </h:panelGroup>
+                        </f:facet>
+                        <h:outputText value="#{currentRow.monthlyRelease}" />
+                    </rich:column>
+                    <rich:column filterValue="#{streamListBean.pfoAppName}"
+                    				filterExpression="#{fn:containsIgnoreCase(currentRow.application, streamListBean.pfoAppName)}"
+                    				filterType="custom">
+                        <f:facet name="header">
+                            <h:panelGroup>
+		                        <h:outputText value="Application Name "/>
+		                        <h:inputText value="#{streamListBean.pfoAppName}">
+		                            <a4j:ajax event="blur" render="streamListData" execute="@this"/>
+		                        </h:inputText>
+                   			 </h:panelGroup>
+                        </f:facet>
+                        <h:outputText value="#{currentRow.application}" />
+                    </rich:column>
+                    <f:facet name="footer">
+                <rich:dataScroller page="#{streamListBean.page}" fastStep="1"/>
+            </f:facet>
+				</rich:dataTable>
+			
+	
+		<h:panelGrid columns="4" styleClass="tablecenter" columnClasses="rightalign" cellspacing="5" cellpadding="5">
+				<a4j:commandButton id="streamAddButton" value="Add" onclick="#{rich:component('RequestAddPopUp')}.show();"/>
+				<h:commandButton id="streamClearButton" value="Clear" action="#{streamListBean.clear}" immediate="true"/>
+				<h:commandButton id="streamCancelButton" value="Cancel" action="#{streamListBean.cancel}" immediate="true"/>
+		</h:panelGrid>
+		
+		<rich:popupPanel id="RequestAddPopUp" model="true" height="260" width="690">
+			<f:facet name="header"><h:outputText value="Add Application Stream Details"/> </f:facet>
+            		<fieldset>
+            		<legend><h:outputText value="Add App Stream Names"/></legend> 
+            		<center>
+            			<a4j:outputPanel id="stream_outputPanel">
+            			<h:form id="addStreamForm">
+	            			<h:panelGrid columns="2">
+		            			<h:panelGroup>
+			                        <h:outputText value="Portfolio Name : "/>
+			                        <h:selectOneMenu value="#{streamListBean.streamObj.portfolioName}" required="true">
+			                            <f:selectItems value="#{streamListBean.pfoList}"/>
+			                        </h:selectOneMenu>
+                        		</h:panelGroup>
+                        		<h:panelGroup>
+			                        <h:outputText value="Stream Name : "/>
+			                        <h:inputText value="#{streamListBean.streamObj.streamName}" required="true"/>			                            
+                        		</h:panelGroup>
+                        		<h:panelGroup>
+			                        <h:outputText value="Monthly Release : "/>
+			                        <h:inputText value="#{streamListBean.streamObj.monthlyRelease}" required="true"/>			                            
+                        		</h:panelGroup>
+                        		<h:panelGroup>
+			                        <h:outputText value="Application Name : "/>
+			                        <h:inputText value="#{streamListBean.streamObj.application}" required="true"/>			                            
+                        		</h:panelGroup>
+                        		<h:panelGroup></h:panelGroup>
+                        		<h:panelGroup></h:panelGroup>
+                        		<h:panelGroup>
+			                        <h:outputText value="Do you want to notify build team : "/>
+			                    </h:panelGroup>
+                        		<h:panelGroup>
+			                        <h:selectBooleanCheckbox required="true" id="sendEmailID" value="#{streamListBean.sendemail}">
+			                        	<f:ajax event="click" listener="#{streamListBean.valiadte}" render="senderList"></f:ajax>
+			                        </h:selectBooleanCheckbox>
+			              		</h:panelGroup>
+			              		<h:panelGroup>
+			                        <h:selectManyCheckbox value="#{streamListBean.sendersList}" required="true" id="senderList">
+			                            <f:selectItems value="#{streamListBean.listofEmail}" var="email" itemLabel="#{email.firstName}" itemValue="#{email.emailAddress}"/>
+			                        </h:selectManyCheckbox>
+                        		</h:panelGroup>
+							</h:panelGrid>
+							<h:panelGrid columns="2">
+								<a4j:commandButton id="okButton" value="Save" actionListener="#{streamListBean.add}"/>
+								<a4j:commandButton id="cancelButton" value="Cancel">
+									 <rich:componentControl target="RequestAddPopUp" event="click" operation="hide" />
+								</a4j:commandButton>
+							</h:panelGrid>
+						</h:form>
+					</a4j:outputPanel>
+            		</center>
+            		</fieldset>
+		</rich:popupPanel>
+		<rich:popupPanel id="SendersListPopUp" model="true" height="230" width="590">
+			<f:facet name="header"><h:outputText value="Select Senders List"/> </f:facet>
+            		<fieldset>
+            		<legend><h:outputText value="Select Senders To/CC List"/></legend> 
+            		<center>
+            			<a4j:outputPanel id="senders_outputPanel">
+            			<h:message for="emailSenderID"></h:message>
+            			<h:form id="sendEmailForm">
+	            			<h:panelGrid columns="2">
+		            			<h:panelGroup>
+			                        <h:outputText value="Sender's To List : "/>
+			                        <h:selectManyCheckbox value="#{streamListBean.sendersList}" required="true" id="emailSenderID">
+			                            <f:selectItems value="#{streamListBean.listofEmail}" var="email" itemLabel="#{email.firstName}" itemValue="#{email.emailAddress}"/>
+			                        </h:selectManyCheckbox>
+                        		</h:panelGroup>
+							</h:panelGrid>
+							<h:panelGrid columns="2">
+								<a4j:commandButton id="okButton" value="Save" action="#{streamListBean.saveSender}">
+										<rich:componentControl target="SendersListPopUp" event="click" operation="hide" />
+								</a4j:commandButton>
+								<a4j:commandButton id="cancelButton" value="Cancel">
+									 <rich:componentControl target="SendersListPopUp" event="click" operation="hide" />
+								</a4j:commandButton>
+							</h:panelGrid>
+						</h:form>
+					</a4j:outputPanel>
+            		</center>
+            		</fieldset>
+		</rich:popupPanel>
+	</h:form>
+</ui:define>
+</ui:composition>
+</html>

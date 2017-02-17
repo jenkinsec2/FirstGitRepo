@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+<ui:composition template="/layout/template.xhtml">
+	<ui:define name="body">
+		
+		<h4>
+			<h:outputText value="Retrival of Jenkins Build Data for Metrics" />
+		</h4>
+
+		<h:form id="buildMetricRequest">
+		<div style="border: 1px solid #e3e3e3; padding-left:5px; padding-right:20px; margin:auto; display: inline-block;">
+			<h:panelGrid columns="4" styleClass="tablecenter" columnClasses="rightalign,leftalign,rightalign,leftalign">
+				<h:panelGroup>
+					<h:outputLabel value="Date to Retrive the build data from repository" for="buildMetricDate" style="font-size: 14px;"></h:outputLabel>
+					<h:outputText value="*" style="color: red" />
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<!-- <h:inputText id="buildMetricDate" value="#{buildMetricBean.buildDate}" required="true" requiredMessage="Date field is missing"></h:inputText> -->
+					<h:outputText value="(YYMMDD)" style="color: red" />
+					<rich:calendar id="buildMetricDate" datePattern="yyMMdd" value="#{buildMetricBean.buildDate}" required="true" requiredMessage="Date field is missing"></rich:calendar>
+				</h:panelGroup>
+				<h:panelGroup></h:panelGroup>
+			</h:panelGrid>
+			<h:panelGrid></h:panelGrid>
+			<h:panelGrid columns="4" styleClass="tablecenter" columnClasses="rightalign,leftalign,rightalign,leftalign">
+			<h:outputLabel value="Select Portfolios to be included in the Report :" for="buildMetricDate" style="font-size: 14px;"></h:outputLabel>
+				<h:selectManyCheckbox id="portfolioList" value="#{buildMetricBean.list}" required="true" requiredMessage="Portfolio is missing">
+					<f:selectItem itemValue="Claims" itemLabel="Claims" />
+   					<f:selectItem itemValue="Distribution" itemLabel="Distribution" />
+   					<f:selectItem itemValue="Finance" itemLabel="Finance" />
+   					<f:selectItem itemValue="D_P" itemLabel="Products" />
+   					<f:selectItem itemValue="DocumentSolutions" itemLabel="DocSolutions" />
+   					<f:selectItem itemValue="eCommerce" itemLabel="ECommerce" />
+   					<f:selectItem itemValue="Life" itemLabel="Life" />
+					<f:selectItem itemValue="SEPG" itemLabel="SEPG" />
+				</h:selectManyCheckbox>
+			</h:panelGrid>
+			<h:panelGrid></h:panelGrid>
+			<h:panelGrid columns="4" styleClass="tablecenter" columnClasses="rightalign" cellspacing="5" cellpadding="5">
+				<h:commandButton id="buildMetricSubmitButton" value="Submit" action="#{buildMetricBean.submit}"/>
+				<h:commandButton id="buildMetricClearButton" value="Clear" action="#{buildMetricBean.clear}" immediate="true"/>
+				<h:commandButton id="buildMetricCancelButton" value="Cancel" action="#{buildMetricBean.cancel}" immediate="true"/>
+			</h:panelGrid>
+		</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

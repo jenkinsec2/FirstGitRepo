@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config
+    xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="2.2">
+    
+    <navigation-rule>
+		<navigation-case>
+			<from-outcome>buildMetric</from-outcome>
+			<to-view-id>/builds/buildMetrics.xhtml</to-view-id>
+		</navigation-case> 
+		
+		<navigation-case>
+			<from-outcome>scheduledJobs</from-outcome>
+			<to-view-id>/builds/scheduledJobs.xhtml</to-view-id>
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>scheduleEmail</from-outcome>
+			<to-view-id>/builds/scheduleEmail.xhtml</to-view-id>
+		</navigation-case> 
+		
+		<navigation-case>
+			<from-outcome>main</from-outcome>
+			<to-view-id>/main.xhtml</to-view-id>
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>streamsList</from-outcome>
+			<to-view-id>/builds/streamsList.xhtml</to-view-id>
+		</navigation-case> 
+    </navigation-rule>
+    
+</faces-config>

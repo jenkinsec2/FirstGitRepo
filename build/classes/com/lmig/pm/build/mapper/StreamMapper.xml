@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN' 'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+<mapper namespace="com.lmig.pm.build.mapper.StreamMapper">
+
+  <select id="getListOfStreams" resultType="com.lmig.pm.build.bo.StreamBO" resultMap="StreamResult">
+     SELECT * FROM portfolio_stream_list
+  </select>
+  
+   <resultMap id="StreamResult" type="Stream">
+   		<id property="pfo_str_id" column="pfo_srt_id"/>
+    	<result property="portfolioName" column="portfolio_name"/>
+    	<result property="streamName" column="stream_name"/>
+    	<result property="monthlyRelease" column="release_month"/>
+   </resultMap>
+   
+   <select id="getPortFolioNames" resultType="java.lang.String">
+     SELECT distinct portfolio_name FROM portfolio_stream_list
+  </select>
+  
+  <select id="getEmailList" resultType="com.lmig.pm.build.bo.EmailListBO" resultMap="EmailResult">
+     SELECT * FROM email_list
+  </select>
+  
+  <resultMap id="EmailResult" type="com.lmig.pm.build.bo.EmailListBO">
+   		<id property="id" column="email_id"/>
+    	<result property="emailAddress" column="email_address"/>
+    	<result property="firstName" column="first_name"/>
+    	<result property="lastName" column="last_name"/>
+   </resultMap>
+</mapper>

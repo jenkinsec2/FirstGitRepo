@@ -1,0 +1,20 @@
+show databases;
+use buildteam;
+
+create table email_list(
+	email_id INT NOT NULL AUTO_INCREMENT,
+   email_address VARCHAR(40) NOT NULL,
+   first_name VARCHAR(100) NOT NULL,
+   last_name VARCHAR(100) NOT NULL,
+   PRIMARY KEY ( email_id )
+);
+
+insert into `portfolio_stream_list` (`pfo_srt_id`, `portfolio_name`, `stream_name`, `release_month`) values(null, 'Finance', 'FINWPS_2015_11_RC_St...', '2015_11')
+
+drop table portfolio_stream_list;
+
+insert into `portfolio_stream_list` (`pfo_srt_id`, `portfolio_name`, `stream_name`, `release_month`, `application`) values(null, 'Distribution', 'DIST_InsProf_2015_12_RC_Stream', '2015_12','PASVCFLI')
+
+update `portfolio_stream_list` set `application`='PASVCAQUA' where `pfo_srt_id`=106
+
+alter table portfolio_stream_list add column application varchar(100)

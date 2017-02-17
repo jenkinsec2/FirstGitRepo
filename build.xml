@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     Oct 17, 2015 7:21:27 AM                                                        
+
+     project    
+     description
+                   
+     n0184388                                                                
+     ====================================================================== -->
+<project name="project" default="test">
+	<description>
+            description
+    </description>
+	<!--<property name="tomcat" value="C:\My Data\MyData\server\apache-tomcat-7.0.64"/>
+	<property name="tomcat.deployment" value="${tomcat}/webapps"/>
+	<property name="tomcat.bin" value="${tomcat}/bin"/>-->
+	<property name="basedir" value="."/>
+	<property name="build.dir" value="${basedir}/WebContent/WEB-INF/classes"/>
+	<property name="src.dir" value="${basedir}/src"/>
+
+
+	<!-- ================================= 
+          target: default              
+         ================================= -->
+	<target name="test">
+		<echo>${basedir}</echo>
+		<echo>${source}</echo>
+	</target>
+
+	<path id="master-classpath">
+		<fileset dir="${basedir}/WebContent/WEB-INF/lib">
+			<include name="*.jar"/>
+		</fileset>
+		<pathelement path="${build.dir}"/>
+	</path>
+
+	<target name="clean" description="Clean output directories">
+		<delete failonerror="false">
+			<fileset dir="${build.dir}">
+				<include name="**/*.class" />
+			</fileset>
+		</delete>
+	</target>
+
+	<target name="build" description="Compile source tree java files" depends="clean">
+		<mkdir dir="${build.dir}" />
+		<javac destdir="${build.dir}" source="1.8" target="1.8" includeantruntime="true">
+			<src path="${src.dir}" />
+			<classpath refid="master-classpath" />
+		</javac>
+	</target>
+
+	<target name="createwar" depends="build">
+		<war warfile="buildteam.war" webxml="true">
+			<fileset dir="${source}" />
+		</war>
+	</target>
+
+<!--	<target name="deploytoserver" depends="createwar">
+		<copy file="${basedir}/buildteam.war" todir="${tomcat.deployment}"/>
+	</target>
+
+	<target name="starttomcat">
+		<exec executable="${tomcat.bin}/startup.bat"/>
+	</target>
+
+	<target name="stoptomcat">
+		<exec executable="${tomcat.bin}/shutdown.bat"/>
+	</target>-->
+</project>
